@@ -1,6 +1,0 @@
-line_routine                           hits tot_time av_time
--------------------------------------  ---- -------- -------
-discretisation.py:  645   Mesh.access     2    0.255   0.128
-
-Total Time (UW3 API) :                         0.255        
-Total Time (Runtime) :                       151.215        
