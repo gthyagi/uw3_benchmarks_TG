@@ -1,0 +1,1 @@
+This analytical case same as k=0, so exit.

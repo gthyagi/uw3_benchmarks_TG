@@ -1,0 +1,34 @@
+-------------------------------------------------------------------------------
+DM Object: uw_.meshes/uw_annulus_ro2_ri1_csize0.0078125.msh 8 MPI processes
+  type: plex
+uw_.meshes/uw_annulus_ro2_ri1_csize0.0078125.msh in 2 dimensions:
+  Number of 0-cells per rank: 23128 22829 22461 22459 22691 22676 22319 23121
+  Number of 1-cells per rank: 68750 67869 66751 66735 67422 67423 66343 68737
+  Number of 2-cells per rank: 45623 45041 44291 44277 44732 44748 44025 45617
+Labels:
+  depth: 3 strata with value/size (0 (23128), 1 (68750), 2 (45623))
+  All_Boundaries: 1 strata with value/size (1001 (315))
+  Elements: 1 strata with value/size (666666 (68434))
+  Lower: 1 strata with value/size (1 (170))
+  Upper: 1 strata with value/size (2 (460))
+  celltype: 3 strata with value/size (0 (23128), 1 (68750), 3 (45623))
+-------------------------------------------------------------------------------
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 4.069064054138e+07 
+    1 KSP Residual norm 7.518628005601e-06 
+Relative error in velocity in the L2 norm:  1.4468901738187267e-07
+Relative error in pressure in the L2 norm:  0.0001206664197319069
+Creating new h5 file
+-------------------------------------------------------------------------------
+rank: 1, RAM Used (GB): 0.243743896484375
+rank: 2, RAM Used (GB): 0.2441558837890625
+rank: 5, RAM Used (GB): 0.233154296875
+rank: 6, RAM Used (GB): 0.235687255859375
+rank: 0, RAM Used (GB): 0.256988525390625
+rank: 3, RAM Used (GB): 0.2416534423828125
+rank: 4, RAM Used (GB): 0.23944091796875
+rank: 7, RAM Used (GB): 0.2522430419921875
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There is one unused database option. It is:
+Option left: name:-stokes_fieldsplit_pressure_pc_gasm_type value: basic source: code

@@ -1,0 +1,33 @@
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 3.347878875897e+05 
+    1 KSP Residual norm 1.695444226684e-07 
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in velocity in the L2 norm:  1.22079823648441e-07
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Relative error in pressure in the L2 norm:  0.00019672444122107485
+Creating new h5 file
+-------------------------------------------------------------------------------
+rank: 0, RAM Used (GB): 0.24920654296875
+rank: 2, RAM Used (GB): 0.233245849609375
+rank: 5, RAM Used (GB): 0.2422332763671875
+rank: 6, RAM Used (GB): 0.24102783203125
+rank: 4, RAM Used (GB): 0.229217529296875
+rank: 1, RAM Used (GB): 0.235076904296875
+rank: 7, RAM Used (GB): 0.2303619384765625
+rank: 3, RAM Used (GB): 0.2274169921875
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There is one unused database option. It is:
+Option left: name:-stokes_fieldsplit_pressure_pc_gasm_type value: basic source: code

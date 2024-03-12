@@ -1,0 +1,15 @@
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 4.591615057912e+06 
+    1 KSP Residual norm 1.898306491930e-07 
+Relative error in velocity in the L2 norm:  0.002323459821348364
+Relative error in velocity in the L2 norm:  0.002323459821348364
+Relative error in pressure in the L2 norm:  0.12453607742046843
+Relative error in pressure in the L2 norm:  0.12453607742046843
+Creating new h5 file
+-------------------------------------------------------------------------------
+rank: 0, RAM Used (GB): 1.0657196044921875
+rank: 1, RAM Used (GB): 1.041961669921875
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There is one unused database option. It is:
+Option left: name:-stokes_fieldsplit_pressure_pc_gasm_type value: basic source: code

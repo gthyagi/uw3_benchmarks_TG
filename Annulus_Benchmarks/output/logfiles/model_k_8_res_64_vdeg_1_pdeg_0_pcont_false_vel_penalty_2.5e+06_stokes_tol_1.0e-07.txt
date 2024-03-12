@@ -1,0 +1,42 @@
+-------------------------------------------------------------------------------
+DM Object: uw_.meshes/uw_annulus_ro2_ri1_csize0.015625.msh 4 MPI processes
+  type: plex
+uw_.meshes/uw_annulus_ro2_ri1_csize0.015625.msh in 2 dimensions:
+  Number of 0-cells per rank: 11475 11645 11432 11400
+  Number of 1-cells per rank: 33944 34475 33829 33744
+  Number of 2-cells per rank: 22470 22831 22398 22345
+Labels:
+  depth: 3 strata with value/size (0 (11475), 1 (33944), 2 (22470))
+  All_Boundaries: 1 strata with value/size (1001 (315))
+  Elements: 1 strata with value/size (666666 (33628))
+  Lower: 1 strata with value/size (1 (199))
+  Upper: 1 strata with value/size (2 (433))
+  celltype: 3 strata with value/size (0 (11475), 1 (33944), 3 (22470))
+-------------------------------------------------------------------------------
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 1.925477005911e+06 
+    1 KSP Residual norm 1.615891374245e-03 
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 8.034379169396e+05 
+    1 KSP Residual norm 1.448094935450e-03 
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 2.266310688257e+05 
+    1 KSP Residual norm 1.238956877678e-03 
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 6.855573929469e+04 
+    1 KSP Residual norm 1.116642509146e-03 
+    Residual norms for stokes_ solve.
+    0 KSP Residual norm 1.030500984544e+04 
+    1 KSP Residual norm 1.001398812416e-03 
+Relative error in velocity in the L2 norm:  0.8910835765794812
+Relative error in pressure in the L2 norm:  350419.7674888047
+Creating new h5 file
+-------------------------------------------------------------------------------
+rank: 1, RAM Used (GB): 0.3267059326171875
+rank: 3, RAM Used (GB): 0.3042449951171875
+rank: 2, RAM Used (GB): 0.3013763427734375
+rank: 0, RAM Used (GB): 0.3412322998046875
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There is one unused database option. It is:
+Option left: name:-stokes_fieldsplit_pressure_pc_gasm_type value: basic source: code

@@ -44,7 +44,7 @@ from sympy import Piecewise
 # +
 # %%
 n_els = 4
-refinement = 3
+refinement = 2
 
 mesh1 = uw.meshing.UnstructuredSimplexBox(regular=True,
     minCoords=(0.0, 0.0), maxCoords=(1.0, 1.0), cellSize=1 / n_els, 
@@ -76,11 +76,11 @@ stokes.constitutive_model.Parameters.shear_viscosity_0 = 1
 T = uw.discretisation.MeshVariable("T", mesh, 1, degree=3, continuous=True, varsymbol=r"{T}")
 T2 = uw.discretisation.MeshVariable("T2", mesh, 1, degree=3, continuous=True, varsymbol=r"{T_2}")
 
-# -
 v0 = stokes.Unknowns.u.clone("V0", r"{v_0}")
-v1 = stokes.Unknowns.u.clone("V1", r"{v_1}")
-
-
+v1 = v0.clone("V1", r"{v_1}")
+# -
+with mesh.access():
+    print(v.data)
 
 # +
 # options = PETSc.Options()
@@ -118,17 +118,6 @@ stokes.add_dirichlet_bc((sympy.oo, 0.0), "Top")
 stokes.add_dirichlet_bc((sympy.oo,0.0), "Bottom")
 stokes.add_dirichlet_bc((0.0,sympy.oo), "Left")
 stokes.add_dirichlet_bc((0.0,sympy.oo), "Right")
-
-# stokes.add_natural_bc([0.0,1e5*v.sym[1]], "Top") 
-# stokes.add_dirichlet_bc((sympy.oo,0.0), "Bottom")
-# stokes.add_dirichlet_bc((0.0,sympy.oo), "Left")
-# stokes.add_dirichlet_bc((0.0,sympy.oo), "Right")
-
-# Gamma = mesh.Gamma
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Top")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Bottom")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Left")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Right")
 # -
 
 
@@ -222,7 +211,7 @@ stokes.bodyforce = sympy.Matrix(
 )
 
 viscosity_fn = sympy.Piecewise(
-    (1.0e8, x > x_c),
+    (1.0e6, x > x_c),
     (1.0, True),
 )
 
@@ -246,34 +235,31 @@ with mesh.access(v0):
     v0.data[...] = v.data[...]
 
 # +
-# with mesh.access(v):
-#     v.data[...] = 0.
-# -
-
-with mesh.access():
-    print(stokes.u.data)
-
-# +
-
-
 # reset and re-do with natural bcs
 
 stokes._reset()
 stokes.tolerance = 1.0e-6
-stokes.add_natural_bc([0.0, 2.5e7*v.sym[1]], "Top") 
+stokes.add_natural_bc([0.0,1e6*v.sym[1]], "Top") 
 stokes.add_dirichlet_bc((sympy.oo,0.0), "Bottom")
 stokes.add_dirichlet_bc((0.0,sympy.oo), "Left")
 stokes.add_dirichlet_bc((0.0,sympy.oo), "Right")
-
-# Gamma = mesh.Gamma
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Top")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Bottom")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Left")
-# stokes.add_natural_bc(2.5e6 * Gamma.dot(v.sym) *  Gamma, "Right")
-
 stokes.solve()
-# -
 
+with mesh.access(v1):
+    v1.data[...] = v.data[...]
+
+# +
+# reset and re-do with natural bcs & petsc normals
+
+stokes._reset()
+stokes.tolerance = 1.0e-6
+
+Gamma = mesh.Gamma
+stokes.add_natural_bc(1e6 * Gamma.dot(v.sym) * Gamma, "Top") 
+stokes.add_dirichlet_bc((sympy.oo,0.0), "Bottom")
+stokes.add_dirichlet_bc((0.0,sympy.oo), "Left")
+stokes.add_dirichlet_bc((0.0,sympy.oo), "Right")
+stokes.solve(debug=False, verbose=False)
 
 
 # +
@@ -285,15 +271,18 @@ if uw.mpi.size == 1:
     import underworld3.visualisation as vis
 
     pvmesh = vis.mesh_to_pv_mesh(mesh)
-    pvmesh.point_data["V"] = vis.vector_fn_to_pv_points(pvmesh, v.sym * stokes.constitutive_model.Parameters.shear_viscosity_0)
+    pvmesh.point_data["V2"] = vis.vector_fn_to_pv_points(pvmesh, v.sym * stokes.constitutive_model.Parameters.shear_viscosity_0)
     pvmesh.point_data["V0"] = vis.vector_fn_to_pv_points(pvmesh, v0.sym * stokes.constitutive_model.Parameters.shear_viscosity_0)
-    pvmesh.point_data["dV"] = pvmesh.point_data["V"] - pvmesh.point_data["V0"]
-    pvmesh.point_data["Vmag"] = vis.scalar_fn_to_pv_points(pvmesh, v.sym.dot(v.sym))
+    pvmesh.point_data["V1"] = vis.vector_fn_to_pv_points(pvmesh, v1.sym * stokes.constitutive_model.Parameters.shear_viscosity_0)
+    pvmesh.point_data["dV0"] = pvmesh.point_data["V1"] - pvmesh.point_data["V0"]
+    pvmesh.point_data["Vmag"] = vis.scalar_fn_to_pv_points(pvmesh, v0.sym.dot(v0.sym))
 
     velocity_points = vis.meshVariable_to_pv_cloud(v)
-    velocity_points.point_data["V"] = vis.vector_fn_to_pv_points(velocity_points, v.sym)
+    velocity_points.point_data["V2"] = vis.vector_fn_to_pv_points(velocity_points, v.sym)
+    velocity_points.point_data["V1"] = vis.vector_fn_to_pv_points(velocity_points, v1.sym)
     velocity_points.point_data["V0"] = vis.vector_fn_to_pv_points(velocity_points, v0.sym)
-    velocity_points.point_data["dV"] = velocity_points.point_data["V"] - velocity_points.point_data["V0"]
+    velocity_points.point_data["dV1"] = velocity_points.point_data["V1"] - velocity_points.point_data["V0"]
+    velocity_points.point_data["dV2"] = velocity_points.point_data["V2"] - velocity_points.point_data["V0"]
 
     pl = pv.Plotter(window_size=(1000, 750))
 
@@ -307,12 +296,9 @@ if uw.mpi.size == 1:
         opacity=1.0,
     )
 
-    arrows = pl.add_arrows(velocity_points.points, velocity_points.point_data["dV"], mag=1e7, opacity=1, show_scalar_bar=False)
+    arrows = pl.add_arrows(velocity_points.points, velocity_points.point_data["dV1"], mag=1000000.0, opacity=1, show_scalar_bar=False)
 
     pl.show(cpos="xy")
-# -
-
-velocity_points.point_data["dV"]
 
 # +
 # %%
@@ -341,4 +327,8 @@ except ImportError:
 
 # %%
 # -
+
+
+
+
 
